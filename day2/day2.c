@@ -36,6 +36,7 @@ int main(void)
     int ascii_Xto1 = 39;
 
     int round2_score = 0;
+    int total2_score = 0;
 
     while (!feof(file))
     {
@@ -51,24 +52,63 @@ int main(void)
         my_hand = strtol(my_hand_char, &endptr, 10);
         printf("%d: %d\n", line[2], my_hand);
 
-        if (elf_hand == my_hand)
-            round_score += 3; // draw
+        // if (elf_hand == my_hand)
+        //     round_score += 3; // draw
 
-        else if ((elf_hand == 1 && my_hand == 3) || (elf_hand == 2 && my_hand == 1) || (elf_hand == 3 && my_hand == 2))
-            round_score += 0; // loss
+        // else if ((elf_hand == 1 && my_hand == 3) || (elf_hand == 2 && my_hand == 1) || (elf_hand == 3 && my_hand == 2))
+        //     round_score += 0; // loss
 
-        else
-            round_score += 6; // thus a win
+        // else
+        //     round_score += 6; // thus a win
 
-        printf("win pts: %d\n", round_score);
+        // printf("win pts: %d\n", round_score);
 
-        round_score += my_hand;
-        printf("round pts: %d\n", round_score);
+        // round_score += my_hand;
+        // printf("round pts: %d\n", round_score);
 
-        total_score += round_score;
-        round_score = 0;
+        // total_score += round_score;
+        // round_score = 0;
 
+    // star 2
 
+        if (my_hand == 2) // draw
+        {
+            round2_score += 3;
+            round2_score += elf_hand; // (i choose the same)
+        }
+
+        else if (my_hand == 1) // lose
+        {
+            round2_score += 0;
+
+            if (elf_hand == 1) // elf = rock, me = scissors
+                round2_score += 3;
+
+            else if (elf_hand == 2) // elf = paper, me = rock
+                round2_score += 1;
+
+            else // elf = scissors. me = paper
+                round2_score += 2;
+        }
+
+        else // win
+        {
+            round2_score += 6;
+
+            if (elf_hand == 1) // elf = rock, me = paper
+                round2_score += 2;
+
+            else if (elf_hand == 2) // elf = paper, me = scissors
+                round2_score += 3;
+
+            else // elf = scissors. me = rock
+                round2_score += 1;
+        }
+
+        printf("round2 pts: %d\n", round2_score);
+        total2_score += round2_score;
+        round2_score = 0;
     }
-    printf("total score %d", total_score);
+    printf("total score %d\n", total_score);
+    printf("total score %d\n", total2_score);
 }
