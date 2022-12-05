@@ -1,114 +1,80 @@
-// a x  rock rock         draw 3 + 1 = 4
-// a y  rock paper        win  6 + 2 = 8
-// a z  rock scissors     loss 0 + 3 = 3
-// b x  paper rock        loss 0 + 1 = 1
-// b y  paper paper       draw 3 + 2 = 5
-// b z  paper scissors    win  6 + 3 = 9
-// c x  scissors rock     win  6 + 1 = 7
-// c y  scissors paper    loss 0 + 2 = 2
-// c z  scissors scissors draw 3 + 3 = 6
-
-// convert abc and xyz to 123
-// work out winner - assign points
-// add points for xyz
-// sum each round for grand total
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <stdint.h>
 
+const uint8_t convert_Ato1 = 16;
+const uint8_t convert_Zto1 = 39;
+
 int main(void)
 {
+    // A = X = rock
+    // B = Y = paper
+    // C = Z = scissors
+
     FILE* file = fopen("day2/input.txt", "r");
-    perror("\nfile IO error: \n");
+    perror("\ntext file loaded");
 
     char line[5];
-    int round_score = 0;
-    int total_score = 0;
-    char elf_hand_char[2];
-    long elf_hand = 0;
-    char my_hand_char[2];
-    int my_hand = 0;
-    char* endptr;
-    uint8_t ascii_Ato1 = 16;
-    int ascii_Xto1 = 39;
+    int round1_score, round2_score = 0;
+    char* string_endptr; // only for strtol to use
 
-    int round2_score = 0;
-    int total2_score = 0;
+    char elf_hand_alpha[2] = {'\0'};
+    char my_hand_char[2] = {'\0'};
+    int elf_hand, my_hand = 0;
 
     while (!feof(file))
     {
         fgets(line, 5, file);
 
-        elf_hand_char[0] = line[0] - ascii_Ato1;
-        elf_hand_char[1] - '\0';
-        elf_hand = strtol(elf_hand_char, &endptr, 10);
-        printf("%d: %d\n", line[0], elf_hand);
+    // convert ABC & XYZ to 1 = rock, 2 = paper, 3 = scissors
+        elf_hand_alpha[0] = line[0] - convert_Ato1;
+        elf_hand = atoi(elf_hand_alpha);
 
-        my_hand_char[0] = line[2] - ascii_Xto1;
-        my_hand_char[1] - '\0';
-        my_hand = strtol(my_hand_char, &endptr, 10);
-        printf("%d: %d\n", line[2], my_hand);
+        my_hand_char[0] = line[2] - convert_Zto1;
+        my_hand = atoi(my_hand_char);
 
-        // if (elf_hand == my_hand)
-        //     round_score += 3; // draw
+    // star 1
 
-        // else if ((elf_hand == 1 && my_hand == 3) || (elf_hand == 2 && my_hand == 1) || (elf_hand == 3 && my_hand == 2))
-        //     round_score += 0; // loss
+        round1_score += my_hand; // pts for hand
 
-        // else
-        //     round_score += 6; // thus a win
+        if (elf_hand == my_hand) // draw - 3pts
+            round1_score += 3;
 
-        // printf("win pts: %d\n", round_score);
+        else if ((elf_hand == 1 && my_hand == 2) || (elf_hand == 2 && my_hand == 3) || (elf_hand == 3 && my_hand == 1))
+            round1_score += 6;   // win - 6pts
 
-        // round_score += my_hand;
-        // printf("round pts: %d\n", round_score);
-
-        // total_score += round_score;
-        // round_score = 0;
+        // lose - 0 pts
 
     // star 2
 
-        if (my_hand == 2) // draw
-        {
-            round2_score += 3;
-            round2_score += elf_hand; // (i choose the same)
-        }
+        if (my_hand == 2) // draw - 3pts + pts for same hand as elf
+            round2_score += 3 + elf_hand;
 
-        else if (my_hand == 1) // lose
+        else if (my_hand == 1) // lose - 0pts + pts for losing hand
         {
-            round2_score += 0;
-
-            if (elf_hand == 1) // elf = rock, me = scissors
+            if (elf_hand == 1)
                 round2_score += 3;
-
-            else if (elf_hand == 2) // elf = paper, me = rock
+            else if (elf_hand == 2)
                 round2_score += 1;
-
-            else // elf = scissors. me = paper
+            else
                 round2_score += 2;
         }
 
-        else // win
+        else // win - 6pts + pts for winning hand
         {
             round2_score += 6;
 
-            if (elf_hand == 1) // elf = rock, me = paper
+            if (elf_hand == 1)
                 round2_score += 2;
-
-            else if (elf_hand == 2) // elf = paper, me = scissors
+            else if (elf_hand == 2)
                 round2_score += 3;
-
-            else // elf = scissors. me = rock
+            else // elf_hand 3
                 round2_score += 1;
         }
 
-        printf("round2 pts: %d\n", round2_score);
-        total2_score += round2_score;
-        round2_score = 0;
     }
-    printf("total score %d\n", total_score);
-    printf("total score %d\n", total2_score);
+    printf("star 1 - total score %d\n", round1_score);
+    printf("star 2 - total score %d\n", round2_score);
 }
