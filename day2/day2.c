@@ -13,8 +13,9 @@ int main(void)
     // B = Y = paper
     // C = Z = scissors
 
+    printf("Advent of Code - day 2\n");
     FILE* file = fopen("day2/input.txt", "r");
-    perror("\ntext file loaded");
+    perror("open file check");
 
     char line[5];
     int round1_score, round2_score = 0;
@@ -76,5 +77,5 @@ int main(void)
 
     }
     printf("star 1 - total score %d\n", round1_score);
-    printf("star 2 - total score %d\n", round2_score);
+    printf("star 2 - total score %d\n\n", round2_score);
 }

@@ -4,8 +4,9 @@
 
 int main(void)
 {
+    printf("Advent of Code - day 1\n");
     FILE* file = fopen("day1/input.txt", "r");
-    perror("file I/O check");
+    perror("open file check");
 
     char line[10];
     char* endptr;
@@ -43,5 +44,5 @@ int main(void)
     printf("first elf sum = %d\n", first_sum);
     printf("second elf sum = %d\n", second_sum);
     printf("third elf sum = %d\n", third_sum);
-    printf("total cals: %d\n", first_sum + second_sum + third_sum);
+    printf("total cals: %d\n\n", first_sum + second_sum + third_sum);
 }
