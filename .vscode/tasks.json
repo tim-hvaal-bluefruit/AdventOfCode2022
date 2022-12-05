@@ -1,0 +1,46 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "gcc - build current file",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "${relativeFileDirname}/${fileBasename}",
+                "-g",
+                "-o",
+                "${relativeFileDirname}/build/program"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "gcc - build and run current file",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "${relativeFileDirname}/${fileBasename}",
+                "-g",
+                "-o",
+                "${relativeFileDirname}/build/program",
+                "&&",
+                "./${relativeFileDirname}/build/program"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "run current file exe",
+            "type": "shell",
+            "command": "./${relativeFileDirname}/build/program",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }
+    ]
+}
